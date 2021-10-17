@@ -110,13 +110,13 @@ module.exports = class DeveloperChecker extends Homey.Device {
     async checkAppDiff(apps, appArray) {
         try {
             const appDiff = apps.filter((a, index) => !!appArray[index] && a.installs > appArray[index].installs);
-            const appDiffReverse = appArray.filter((a, index) => !!apps[index] && a.installs > apps[index].installs);
+            const appDiffReverse = apps.filter((a, index) => !!appArray[index] && a.installs < appArray[index].installs);
 
             this.homey.app.log(`[Device] ${this.getName()} - [appDiff] - appDiff: `, appDiff);
             this.homey.app.log(`[Device] ${this.getName()} - [appDiffReverse] - appDiffReverse: `, appDiffReverse);
 
             appDiff.forEach(async (app) => {
-                await this.homey.app
+                await this.homey.flow
                     .getDeviceTriggerCard(`trigger_INSTALL_ADD`)
                     .trigger({ app: app.name, id: app.id, install: app.installs })
                     .catch(this.error)
@@ -124,7 +124,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
             });
 
             appDiffReverse.forEach(async (app) => {
-                await this.homey.app
+                await this.homey.flow
                     .getDeviceTriggerCard(`trigger_INSTALL_REMOVE`)
                     .trigger({ app: app.name, id: app.id, install: app.installs })
                     .catch(this.error)
