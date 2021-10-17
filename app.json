@@ -1,8 +1,10 @@
 {
   "id": "com.developer.checker",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "compatibility": ">=5.0.0",
-  "platforms": ["local", "cloud"],
+  "platforms": [
+    "local"
+  ],
   "sdk": 3,
   "brandColor": "#000000",
   "name": {
@@ -72,7 +74,9 @@
     {
       "id": "DeveloperChecker",
       "class": "other",
-      "platforms": ["local"],
+      "platforms": [
+        "local"
+      ],
       "capabilities": [
         "measure_installs"
       ],
