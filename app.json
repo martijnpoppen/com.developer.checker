@@ -75,8 +75,9 @@
         "nl": "Developer Checker"
       },
       "images": {
-        "large": "drivers/DeveloperChecker/assets/images/large.jpg",
-        "small": "drivers/DeveloperChecker/assets/images/small.jpg"
+        "xlarge": "drivers/DeveloperChecker/assets/images/xlarge.png",
+        "large": "drivers/DeveloperChecker/assets/images/large.png",
+        "small": "drivers/DeveloperChecker/assets/images/small.png"
       },
       "pair": [
         {

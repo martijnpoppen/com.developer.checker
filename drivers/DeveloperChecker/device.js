@@ -70,7 +70,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
             await this.findApps();
 
             if (initial) {
-                // await sleep(9000);
+                await sleep(9000);
                 await this.setInitFinderInterval();
             }
         } catch (error) {
@@ -88,7 +88,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
 
         if (!apps.data) return;
         const auth = apps.auth;
-        apps = Object.values(apps.data).map((f) => ({ name: f.liveBuild.name.en, id: f.id, installs: f.installs }));
+        apps = Object.values(apps.data).map((f) => ({ name: f.liveBuild ? f.liveBuild.name.en : f.testBuild.name.en, id: f.id, installs: f.installs }));
 
         let totalInstalls = 0;
 
