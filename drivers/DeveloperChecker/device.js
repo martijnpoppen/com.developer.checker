@@ -18,7 +18,13 @@ module.exports = class DeveloperChecker extends Homey.Device {
         }
 
         await this.InitFinder(true);
-        this.setAvailable();
+        await this.setAvailable();
+    }
+
+    onDeleted() {
+        if( this.onPollInterval ) {
+            this.homey.clearInterval(this.onPollInterval);
+        }
     }
 
     async checkCapabilities() {
