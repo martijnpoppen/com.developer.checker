@@ -1,0 +1,9 @@
+{
+  "pair": {
+    "username": "Email",
+    "password": "Password",
+    "otp": "2FA Code (optional)",
+    "login": "Login",
+    "error": "Something went wrong. Check your login and 2FA (optional)"
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "id": "com.developer.checker",
+  "version": "0.0.1",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "brandColor": "#000000",
+  "name": {
+    "en": "Developer Checker",
+    "nl": "Developer Checker"
+  },
+  "description": {
+    "en": "Get insight in your Homey Apps",
+    "nl": "Krijg inzicht in Homey Apps"
+  },
+  "tags": {
+    "en": [
+      "Installs",
+      "Checker",
+      "Security",
+      "Control",
+      "Official",
+      "Homey",
+      "Athom",
+      "Logic",
+      "Apps",
+      "Devices"
+    ]
+  },
+  "category": ["tools"],
+  "images": {
+    "xlarge": "/assets/images/xlarge.png",
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "author": {
+    "name": "Martijn Poppen",
+    "email": "developerchecker@martijnpoppen.nl"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Martijn Poppen",
+        "email": "developerchecker@martijnpoppen.nl"
+      }
+    ],
+    "translators": [
+      {
+        "name": "🇬🇧 Martijn Poppen"
+      },
+      {
+        "name": "🇳🇱 Martijn Poppen"
+      }
+    ]
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "martijnpoppen"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://community.athom.com/t/app-flowchecker/50986"
+  },
+  "source": "https://github.com/martijnpoppen/com.athom.flowchecker",
+  "homeyCommunityTopicId": 50986,
+  "support": "https://community.athom.com/t/app-flowchecker/50986",
+  "drivers": [
+    {
+      "id": "DeveloperChecker",
+      "class": "other",
+      "capabilities": ["measure_installs"],
+      "name": {
+        "en": "Developer Checker",
+        "nl": "Developer Checker"
+      },
+      "images": {
+        "large": "drivers/DeveloperChecker/assets/images/large.jpg",
+        "small": "drivers/DeveloperChecker/assets/images/small.jpg"
+      },
+      "pair": [
+        {
+          "id": "login_homey"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "prev": "login_homey",
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ]
+    }
+  ],
+  "flow": {
+    "triggers": [
+      {
+        "id": "trigger_INSTALL_ADD",
+        "title": {
+          "en": "App installs increased"
+        },
+        "tokens": [
+          {
+            "name": "app",
+            "type": "string",
+            "title": {
+              "en": "APP"
+            }
+          },
+          {
+            "name": "id",
+            "type": "string",
+            "title": {
+              "en": "ID"
+            }
+          },
+          {
+            "name": "installs",
+            "type": "number",
+            "title": {
+              "en": "Installs"
+            }
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=DeveloperChecker"
+          }
+        ]
+      },
+      {
+        "id": "trigger_INSTALL_REMOVE",
+        "title": {
+          "en": "App installs decreased"
+        },
+        "tokens": [
+          {
+            "name": "app",
+            "type": "string",
+            "title": {
+              "en": "APP"
+            }
+          },
+          {
+            "name": "id",
+            "type": "string",
+            "title": {
+              "en": "ID"
+            }
+          },
+          {
+            "name": "installs",
+            "type": "number",
+            "title": {
+              "en": "Installs"
+            }
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=DeveloperChecker"
+          }
+        ]
+      }
+    ]
+  },
+  "capabilities": {
+    "measure_installs": {
+      "type": "number",
+      "title": {
+        "en": "Total app installs"
+      },
+      "insights": true,
+      "desc": {
+        "en": "Total app installs"
+      },
+      "chartType": "spline",
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "assets/icons/list-ol.svg",
+      "$flow": {
+        "triggers": [
+          {
+            "id": "measure_installs_changed",
+            "title": {
+              "en": "Total app installs has changed"
+            },
+            "tokens": [
+              {
+                "name": "measure_installs",
+                "title": {
+                    "en": "Total app installs"
+                },
+                "type": "number",
+                "example": 99
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
