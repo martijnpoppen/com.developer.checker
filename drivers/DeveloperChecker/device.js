@@ -8,8 +8,8 @@ module.exports = class DeveloperChecker extends Homey.Device {
 
         await this.checkCapabilities();
 
-        this.homey.app.log('[onInit] - Loaded settings', settings);
-
+        this.homey.app.log(`[Device] ${this.getName()} - [onInit] - Loaded settings`, {...settings, email: "LOG", password: 'LOG'});
+        
         this._apiClient = await new API(settings);
 
         if (!settings.AUTH && !settings.AUTH.acces_token) {
@@ -54,14 +54,14 @@ module.exports = class DeveloperChecker extends Homey.Device {
     }
 
     async setInitFinderInterval(clear = false) {
-        const REFRESH_INTERVAL = 1000 * (0.5 * 60);
+        const REFRESH_INTERVAL = 1000 * (3 * 60);
 
         if (clear) {
-            this.homey.app.log(`[onPollInterval] - Clearinterval`);
+            this.homey.app.log(`[Device] ${this.getName()} - [onPollInterval] - Clearinterval`);
             this.homey.clearInterval(this.onPollInterval);
         }
 
-        this.homey.app.log(`[onPollInterval]`, REFRESH_INTERVAL);
+        this.homey.app.log(`[Device] ${this.getName()} - [onPollInterval]`, REFRESH_INTERVAL);
         this.onPollInterval = this.homey.setInterval(this.InitFinder.bind(this), REFRESH_INTERVAL);
     }
 
@@ -82,7 +82,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
         const settings = this.getSettings();
         const appArray = settings.APPS;
 
-        this.homey.app.log(`[findapps] - appArray: `, appArray);
+        this.homey.app.log(`[Device] ${this.getName()} - [findapps] - appArray: `, appArray);
 
         let apps = await this._apiClient.getApps(settings.AUTH);
 
@@ -106,15 +106,15 @@ module.exports = class DeveloperChecker extends Homey.Device {
             const appDiff = apps.filter((a, index) => !!appArray[index] && a.installs > appArray[index].installs);
             const appDiffReverse = appArray.filter((a, index) => !!apps[index] && a.installs > apps[index].installs);
 
-            this.homey.app.log(`[appDiff] - appDiff: `, appDiff);
-            this.homey.app.log(`[appDiffReverse] - appDiffReverse: `, appDiffReverse);
+            this.homey.app.log(`[Device] ${this.getName()} - [appDiff] - appDiff: `, appDiff);
+            this.homey.app.log(`[Device] ${this.getName()} - [appDiffReverse] - appDiffReverse: `, appDiffReverse);
 
             appDiff.forEach(async (app) => {
                 await this.homey.app
                     .getDeviceTriggerCard(`trigger_INSTALL_ADD`)
                     .trigger({ app: app.name, id: app.id, install: app.installs })
                     .catch(this.error)
-                    .then(this.homey.app.log(`[appDiff] trigger_INSTALL_ADD - Triggered: "${app.name} | ${app.id} | ${app.installs}"`));
+                    .then(this.homey.app.log(`[Device] ${this.getName()} - [appDiff] trigger_INSTALL_ADD - Triggered: "${app.name} | ${app.id} | ${app.installs}"`));
             });
 
             appDiffReverse.forEach(async (app) => {
@@ -122,7 +122,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
                     .getDeviceTriggerCard(`trigger_INSTALL_REMOVE`)
                     .trigger({ app: app.name, id: app.id, install: app.installs })
                     .catch(this.error)
-                    .then(this.homey.app.log(`[appDiff] trigger_INSTALL_REMOVE - Triggered: "${app.name} | ${app.id} | ${app.installs}"`));
+                    .then(this.homey.app.log(`[Device] ${this.getName()} - [appDiff] trigger_INSTALL_REMOVE - Triggered: "${app.name} | ${app.id} | ${app.installs}"`));
             });
         } catch (error) {
             this.error(error);

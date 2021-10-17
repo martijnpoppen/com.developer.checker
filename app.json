@@ -179,6 +179,9 @@
       "title": {
         "en": "Total app installs"
       },
+      "units": {
+          "en": "Installs"
+      },
       "insights": true,
       "desc": {
         "en": "Total app installs"

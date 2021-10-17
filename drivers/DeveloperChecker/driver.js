@@ -20,7 +20,7 @@ module.exports = class DeveloperChecker extends Homey.Driver {
                     'otp': data.otp
                 }
 
-                this.homey.app.log(`[Driver] ${this.id} - got config`, this.config);
+                this.homey.app.log(`[Driver] ${this.id} - got config`, {...this.config, email: "LOG", password: 'LOG'});
             
                 this._apiClient = await new API(this.config);
                 
