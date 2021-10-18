@@ -126,7 +126,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
             appDiffReverse.forEach(async (app) => {
                 await this.homey.flow
                     .getDeviceTriggerCard(`trigger_INSTALL_REMOVE`)
-                    .trigger({ app: app.name, id: app.id, install: app.installs })
+                    .trigger(this, { app: app.name, id: app.id, install: app.installs })
                     .catch(this.error)
                     .then(this.homey.app.log(`[Device] ${this.getName()} - [appDiff] trigger_INSTALL_REMOVE - Triggered: "${app.name} | ${app.id} | ${app.installs}"`));
             });
