@@ -14,7 +14,6 @@ module.exports = class DeveloperChecker extends Homey.Driver {
 
                 };
                 this.config = {
-                    ...Homey.env,
                     'email': data.username,
                     'password': data.password,
                     'otp': data.otp
@@ -22,7 +21,7 @@ module.exports = class DeveloperChecker extends Homey.Driver {
 
                 this.homey.app.log(`[Driver] ${this.id} - got config`, {...this.config, email: "LOG", password: 'LOG'});
             
-                this._apiClient = await new API(this.config);
+                this._apiClient = await new API({...this.config, ...Homey.env});
                 
                 this.homeydata = await this._apiClient._getBearer({});
             } catch (error) {

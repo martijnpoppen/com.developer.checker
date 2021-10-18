@@ -8,9 +8,9 @@ module.exports = class DeveloperChecker extends Homey.Device {
 
         await this.checkCapabilities();
 
-        this.homey.app.log(`[Device] ${this.getName()} - [onInit] - Loaded settings`, {...settings, email: "LOG", password: 'LOG'});
+        this.homey.app.log(`[Device] ${this.getName()} - [onInit] - Loaded settings`, {...settings, email: "LOG", password: 'LOG', AUTH: {acces_token: 'LOG', refresh_token: 'LOG'}});
         
-        this._apiClient = await new API(settings);
+        this._apiClient = await new API({...settings, ...Homey.env});
 
         if (!settings.AUTH && !settings.AUTH.acces_token) {
             const auth = this._apiClient.getBearer();
