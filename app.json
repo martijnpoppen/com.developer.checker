@@ -1,6 +1,6 @@
 {
   "id": "com.developer.checker",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "compatibility": ">=5.0.0",
   "platforms": [
     "local"
