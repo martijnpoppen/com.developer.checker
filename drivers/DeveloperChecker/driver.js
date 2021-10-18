@@ -5,14 +5,12 @@ module.exports = class DeveloperChecker extends Homey.Driver {
     onInit() {
         this.homey.app.log('[Driver] - init', this.id);
         this.homey.app.log(`[Driver] - version`, Homey.manifest.version);
+
     }
 
     async onPair(session) {
         session.setHandler("login", async (data) => {
             try {
-                this.config = {
-
-                };
                 this.config = {
                     'email': data.username,
                     'password': data.password,
