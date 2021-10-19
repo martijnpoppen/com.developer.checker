@@ -223,6 +223,21 @@
           }
         ]
       }
-    }
+    },
+    "measure_app_installs": {
+        "type": "number",
+        "title": {
+          "en": "app installs"
+        },
+        "units": {
+          "en": "Installs"
+        },
+        "insights": false,
+        "decimals": 0,
+        "getable": true,
+        "setable": false,
+        "uiComponent": "sensor",
+        "icon": "assets/icons/icon.svg"
+      }
   }
 }

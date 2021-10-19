@@ -8,9 +8,9 @@ module.exports = class DeveloperChecker extends Homey.Device {
 
         await this.checkCapabilities();
 
-        this.homey.app.log(`[Device] ${this.getName()} - [onInit] - Loaded settings`, {...settings, email: "LOG", password: 'LOG', AUTH: {acces_token: 'LOG', refresh_token: 'LOG'}});
-        
-        this._apiClient = await new API({...settings, ...Homey.env});
+        this.homey.app.log(`[Device] ${this.getName()} - [onInit] - Loaded settings`, { ...settings, email: 'LOG', password: 'LOG', AUTH: { acces_token: 'LOG', refresh_token: 'LOG' } });
+
+        this._apiClient = await new API({ ...settings, ...Homey.env });
 
         if (!settings.AUTH && !settings.AUTH.acces_token) {
             const auth = this._apiClient.getBearer();
@@ -22,7 +22,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
     }
 
     onDeleted() {
-        if( this.onPollInterval ) {
+        if (this.onPollInterval) {
             this.homey.clearInterval(this.onPollInterval);
         }
     }
@@ -36,7 +36,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
         this.homey.app.log(`[Device] ${this.getName()} - Found capabilities =>`, deviceCapabilities);
         this.homey.app.log(`[Device] ${this.getName()} - Driver capabilities =>`, driverCapabilities);
 
-        if (deviceCapabilities.length !== driverCapabilities.length) {
+        if (driverCapabilities.length > deviceCapabilities.length) {
             await this.updateCapabilities(driverCapabilities, deviceCapabilities);
         }
 
@@ -98,8 +98,23 @@ module.exports = class DeveloperChecker extends Homey.Device {
 
         let totalInstalls = 0;
 
-        apps.forEach((app) => {
+        apps.sort((a, b) => (a.name > b.name ? 1 : -1)).forEach(async (app) => {
             totalInstalls = totalInstalls + app.installs;
+            
+            const capability = `measure_app_installs.${app.id}`;
+
+            if (!this.hasCapability(capability)) {
+                await this.addCapability(capability);
+                await this.setCapabilityOptions(capability, {
+                    title: {
+                        en: `${app.name}`
+                    }
+                });
+            }
+
+            if (this.hasCapability(capability)) {
+                await this.setCapabilityValue(capability, parseInt(app.installs));
+            }
         });
 
         await this.setSettings({ ...settings, APPS: [...new Set(apps)], AUTH: auth });
@@ -116,6 +131,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
             this.homey.app.log(`[Device] ${this.getName()} - [appDiffReverse] - appDiffReverse: `, appDiffReverse);
 
             appDiff.forEach(async (app) => {
+                await this.setCapabilityValue(`measure_installs.${app.name}`, parseInt(app.installs));
                 await this.homey.flow
                     .getDeviceTriggerCard(`trigger_INSTALL_ADD`)
                     .trigger(this, { app: `${app.name}`, id: `${app.id}`, installs: parseInt(app.installs) })
