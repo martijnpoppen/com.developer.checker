@@ -13,5 +13,8 @@
   },
   "0.1.0": {
     "en": "Developer Checker Release"
+  },
+  "0.2.0": {
+    "en": "NEW: add specific app types"
   }
 }

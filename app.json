@@ -1,6 +1,6 @@
 {
   "id": "com.developer.checker",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "compatibility": ">=5.0.0",
   "platforms": [
     "local"
@@ -225,19 +225,19 @@
       }
     },
     "measure_app_installs": {
-        "type": "number",
-        "title": {
-          "en": "app installs"
-        },
-        "units": {
-          "en": "Installs"
-        },
-        "insights": false,
-        "decimals": 0,
-        "getable": true,
-        "setable": false,
-        "uiComponent": "sensor",
-        "icon": "assets/icons/icon.svg"
-      }
+      "type": "number",
+      "title": {
+        "en": "app installs"
+      },
+      "units": {
+        "en": "Installs"
+      },
+      "insights": false,
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "assets/icons/icon.svg"
+    }
   }
 }
