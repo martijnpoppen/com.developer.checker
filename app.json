@@ -1,6 +1,6 @@
 {
   "id": "com.developer.checker",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "compatibility": ">=5.0.0",
   "platforms": [
     "local"
@@ -144,7 +144,8 @@
             "type": "device",
             "filter": "driver_id=DeveloperChecker"
           }
-        ]
+        ],
+        "highlight": true
       },
       {
         "id": "trigger_INSTALL_REMOVE",
@@ -180,7 +181,8 @@
             "type": "device",
             "filter": "driver_id=DeveloperChecker"
           }
-        ]
+        ],
+        "highlight": true
       }
     ]
   },
