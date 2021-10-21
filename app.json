@@ -1,6 +1,6 @@
 {
   "id": "com.developer.checker",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "compatibility": ">=5.0.0",
   "platforms": [
     "local"
@@ -196,8 +196,7 @@
         "nl": "Totaal app installaties"
       },
       "units": {
-        "en": "Installs",
-        "nl": "Installaties"
+        "en": "Installs"
       },
       "insights": true,
       "desc": {
@@ -238,8 +237,7 @@
         "nl": "App installaties"
       },
       "units": {
-        "en": "Installs",
-        "nl": "Installaties"
+        "en": "Installs"
       },
       "insights": false,
       "decimals": 0,
