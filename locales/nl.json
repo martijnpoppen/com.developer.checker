@@ -1,0 +1,10 @@
+{
+  "pair": {
+    "description": "Login met je Homey account",
+    "username": "Email",
+    "password": "Wachtwoord",
+    "otp": "2FA Code (optioneel)",
+    "login": "Login",
+    "error": "Er is iets mis gegaan. Controleer je login en 2FA (optioneel)"
+  }
+}

@@ -1,5 +1,6 @@
 {
   "pair": {
+    "description": "Login with your Homey account",
     "username": "Email",
     "password": "Password",
     "otp": "2FA Code (optional)",

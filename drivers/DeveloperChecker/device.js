@@ -101,10 +101,11 @@ module.exports = class DeveloperChecker extends Homey.Device {
         apps.sort((a, b) => (a.name > b.name ? 1 : -1)).forEach(async (app) => {
             totalInstalls = totalInstalls + app.installs;
             
-            const capability = `measure_app_installs.${app.id}`;
+            const capability = `app_installs.${app.id}`;
 
             if (!this.hasCapability(capability)) {
                 await this.addCapability(capability);
+                await sleep(1000);
                 await this.setCapabilityOptions(capability, {
                     title: {
                         en: `${app.name}`
@@ -131,7 +132,6 @@ module.exports = class DeveloperChecker extends Homey.Device {
             this.homey.app.log(`[Device] ${this.getName()} - [appDiffReverse] - appDiffReverse: `, appDiffReverse);
 
             appDiff.forEach(async (app) => {
-                await this.setCapabilityValue(`measure_installs.${app.name}`, parseInt(app.installs));
                 await this.homey.flow
                     .getDeviceTriggerCard(`trigger_INSTALL_ADD`)
                     .trigger(this, { app: `${app.name}`, id: `${app.id}`, installs: parseInt(app.installs) })
