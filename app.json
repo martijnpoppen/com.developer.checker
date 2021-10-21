@@ -1,6 +1,6 @@
 {
   "id": "com.developer.checker",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "compatibility": ">=5.0.0",
   "platforms": [
     "local"
@@ -65,11 +65,11 @@
     }
   },
   "bugs": {
-    "url": "https://community.athom.com/t/app-flowchecker/50986"
+    "url": "https://community.athom.com/t/app-pro-developer-checker/53472"
   },
-  "source": "https://github.com/martijnpoppen/com.athom.flowchecker",
-  "homeyCommunityTopicId": 50986,
-  "support": "https://community.athom.com/t/app-flowchecker/50986",
+  "source": "https://github.com/martijnpoppen/com.developer.checker",
+  "homeyCommunityTopicId": 53472,
+  "support": "https://community.athom.com/t/app-pro-developer-checker/53472",
   "drivers": [
     {
       "id": "DeveloperChecker",
