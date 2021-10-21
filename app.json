@@ -1,6 +1,6 @@
 {
   "id": "com.developer.checker",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "compatibility": ">=5.0.0",
   "platforms": [
     "local"
@@ -134,7 +134,8 @@
             "name": "installs",
             "type": "number",
             "title": {
-              "en": "Installs"
+              "en": "Installs",
+              "nl": "Installaties"
             }
           }
         ],
@@ -171,7 +172,8 @@
             "name": "installs",
             "type": "number",
             "title": {
-              "en": "Installs"
+              "en": "Installs",
+              "nl": "Installaties"
             }
           }
         ],
@@ -190,14 +192,17 @@
     "measure_installs": {
       "type": "number",
       "title": {
-        "en": "Total app installs"
+        "en": "Total app installs",
+        "nl": "Totaal app installaties"
       },
       "units": {
-        "en": "Installs"
+        "en": "Installs",
+        "nl": "Installaties"
       },
       "insights": true,
       "desc": {
-        "en": "Total app installs"
+        "en": "Total app installs",
+        "nl": "Totaal app installaties"
       },
       "chartType": "spline",
       "decimals": 0,
@@ -226,13 +231,15 @@
         ]
       }
     },
-    "measure_app_installs": {
+    "app_installs": {
       "type": "number",
       "title": {
-        "en": "app installs"
+        "en": "App installs",
+        "nl": "App installaties"
       },
       "units": {
-        "en": "Installs"
+        "en": "Installs",
+        "nl": "Installaties"
       },
       "insights": false,
       "decimals": 0,
