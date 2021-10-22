@@ -105,6 +105,44 @@
           "id": "add_devices",
           "template": "add_devices"
         }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Login settings",
+            "nl": "Login instellingen"
+          },
+          "children": [
+            {
+              "id": "email",
+              "type": "text",
+              "label": {
+                "en": "Email",
+                "nl": "Email"
+              },
+              "value": ""
+            },
+            {
+              "id": "password",
+              "type": "password",
+              "label": {
+                "en": "Password",
+                "nl": "Wachtwoord"
+              },
+              "value": ""
+            },
+            {
+                "id": "otp",
+                "type": "text",
+                "label": {
+                  "en": "2FA",
+                  "nl": "2FA"
+                },
+                "value": ""
+            }
+        ]
+        }
       ]
     }
   ],

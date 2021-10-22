@@ -4,27 +4,45 @@ const { sleep } = require('../../lib/helpers');
 
 module.exports = class DeveloperChecker extends Homey.Device {
     async onInit() {
-        const settings = this.getSettings();
-
         await this.checkCapabilities();
-
-        this.homey.app.log(`[Device] ${this.getName()} - [onInit] - Loaded settings`, { ...settings, email: 'LOG', password: 'LOG', AUTH: { acces_token: 'LOG', refresh_token: 'LOG' } });
-
-        this._apiClient = await new API({ ...settings, ...Homey.env });
-
-        if (!settings.AUTH && !settings.AUTH.acces_token) {
-            const auth = this._apiClient.getBearer();
-            await this.setSettings({ ...settings, AUTH: auth });
-        }
-
-        await this.InitFinder(true);
+        await this.setApiClient();
         await this.setAvailable();
     }
 
     onDeleted() {
         if (this.onPollInterval) {
+            this.homey.app.log(`[Device] ${this.getName()} - onDeleted - clearInterval`);
             this.homey.clearInterval(this.onPollInterval);
         }
+    }
+
+    async onSettings({ oldSettings, newSettings, changedKeys }) {
+        this.homey.app.log(`[Device] ${this.getName()} - onSettings`);
+
+        if (this.onPollInterval) {
+            this.homey.app.log(`[Device] ${this.getName()} - onSettings - clearInterval`);
+            this.homey.clearInterval(this.onPollInterval);
+        }
+
+        this.setApiClient(true);
+    }
+
+    async setApiClient(force = false) {
+        if(force) {
+            await sleep(2000);
+        }
+
+        const settings = this.getSettings();
+        this.homey.app.log(`[Device] ${this.getName()} - [setApiClient] - Loaded settings`, { ...settings, email: 'LOG', password: 'LOG', AUTH: { acces_token: 'LOG', refresh_token: 'LOG' } });
+
+        this._apiClient = await new API({ ...settings, ...Homey.env });
+
+        if (force || (!settings.AUTH && !settings.AUTH.acces_token)) {
+            const auth = await this._apiClient._getBearer() || {};
+            await this.setSettings({ ...settings, AUTH: auth, password: '' });
+        }
+
+        await this.InitFinder(true);
     }
 
     async checkCapabilities() {
@@ -85,42 +103,56 @@ module.exports = class DeveloperChecker extends Homey.Device {
     }
 
     async findApps() {
-        const settings = this.getSettings();
-        const appArray = settings.APPS;
+        try {
+            const settings = this.getSettings();
+            const appArray = settings.APPS;
 
-        this.homey.app.log(`[Device] ${this.getName()} - [findapps] - appArray: `, appArray);
+            this.homey.app.log(`[Device] ${this.getName()} - [findapps] - appArray: `, appArray);
 
-        let apps = await this._apiClient.getApps(settings.AUTH);
+            let apps = await this._apiClient.getApps(settings.AUTH);
 
-        if (!apps.data) return;
-        const auth = apps.auth;
-        apps = Object.values(apps.data).map((f) => ({ name: f.liveBuild ? f.liveBuild.name.en : f.testBuild.name.en, id: f.id, installs: f.installs }));
-
-        let totalInstalls = 0;
-
-        apps.sort((a, b) => (a.name > b.name ? 1 : -1)).forEach(async (app) => {
-            totalInstalls = totalInstalls + app.installs;
-            
-            const capability = `app_installs.${app.id}`;
-
-            if (!this.hasCapability(capability)) {
-                await this.addCapability(capability);
-                await sleep(1000);
-                await this.setCapabilityOptions(capability, {
-                    title: {
-                        en: `${app.name}`
-                    }
-                });
+            if (!apps.data) {
+                throw new Error(this.homey.__('pair.error'));
             }
 
-            if (this.hasCapability(capability)) {
-                await this.setCapabilityValue(capability, parseInt(app.installs));
-            }
-        });
+            const auth = apps.auth;
+            apps = Object.values(apps.data).map((f) => ({ name: f.liveBuild ? f.liveBuild.name.en : f.testBuild.name.en, id: f.id, installs: f.installs }));
 
-        await this.setSettings({ ...settings, APPS: [...new Set(apps)], AUTH: auth });
-        await this.setCapabilityValue('measure_installs', totalInstalls);
-        await this.checkAppDiff(apps, appArray);
+            let totalInstalls = 0;
+
+            apps.sort((a, b) => (a.name > b.name ? 1 : -1)).forEach(async (app) => {
+                totalInstalls = totalInstalls + app.installs;
+
+                const capability = `app_installs.${app.id}`;
+
+                if (!this.hasCapability(capability)) {
+                    await this.addCapability(capability);
+                    await sleep(1000);
+                    await this.setCapabilityOptions(capability, {
+                        title: {
+                            en: `${app.name}`
+                        }
+                    });
+                }
+
+                if (this.hasCapability(capability)) {
+                    await this.setCapabilityValue(capability, parseInt(app.installs));
+                }
+            });
+
+            await this.setSettings({ ...settings, APPS: [...new Set(apps)], AUTH: auth });
+            await this.setCapabilityValue('measure_installs', totalInstalls);
+            await this.checkAppDiff(apps, appArray);
+
+        } catch (error) {
+            this.homey.app.log(`[Device] ${this.getName()} - [findapps] - error: `, error);
+            this.setUnavailable(error);
+
+            if (this.onPollInterval) {
+                this.homey.app.log(`[Device] ${this.getName()} - [findapps] - error - clearInterval`);
+                this.homey.clearInterval(this.onPollInterval);
+            }
+        }
     }
 
     async checkAppDiff(apps, appArray) {

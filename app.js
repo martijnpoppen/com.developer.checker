@@ -1,4 +1,5 @@
 const Homey = require("homey");
+const { encrypt } = require("./lib/helpers");
 
 class App extends Homey.App {
   log() {
