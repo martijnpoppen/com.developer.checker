@@ -1,6 +1,6 @@
 {
   "id": "com.developer.checker",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "compatibility": ">=5.0.0",
   "platforms": [
     "local"
@@ -133,15 +133,15 @@
               "value": ""
             },
             {
-                "id": "otp",
-                "type": "text",
-                "label": {
-                  "en": "2FA",
-                  "nl": "2FA"
-                },
-                "value": ""
+              "id": "otp",
+              "type": "text",
+              "label": {
+                "en": "2FA",
+                "nl": "2FA"
+              },
+              "value": ""
             }
-        ]
+          ]
         }
       ]
     }
