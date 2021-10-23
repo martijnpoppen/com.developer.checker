@@ -5,7 +5,6 @@ module.exports = class DeveloperChecker extends Homey.Driver {
     onInit() {
         this.homey.app.log('[Driver] - init', this.id);
         this.homey.app.log(`[Driver] - version`, Homey.manifest.version);
-
     }
 
     async onPair(session) {
@@ -48,7 +47,7 @@ module.exports = class DeveloperChecker extends Homey.Driver {
                 }
             });
 
-            this.homey.app.log(`[Driver] ${this.id} - Found devices - `, results);
+            this.homey.app.log(`[Driver] ${this.id} - Found devices - `, {...results, settings: 'LOG'});
 
             return results;
         });

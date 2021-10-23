@@ -33,7 +33,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
         }
 
         const settings = this.getSettings();
-        this.homey.app.log(`[Device] ${this.getName()} - [setApiClient] - Loaded settings`, { ...settings, email: 'LOG', password: 'LOG', AUTH: { acces_token: 'LOG', refresh_token: 'LOG' } });
+        this.homey.app.log(`[Device] ${this.getName()} - [setApiClient] - Loaded settings`, { ...settings, email: 'LOG', password: 'LOG', SECRET: 'LOG', AUTH: { acces_token: 'LOG', refresh_token: 'LOG' } });
 
         this._apiClient = await new API({ ...settings, ...Homey.env });
 
