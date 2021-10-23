@@ -158,7 +158,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
     async checkAppDiff(apps, appArray) {
         try {
             const appDiff = apps.filter((a, index) => !!appArray[index] && a.installs > appArray[index].installs);
-            const appDiffReverse = appArray.filter((a, index) => !!apps[index] && a.installs > apps[index].installs);
+            const appDiffReverse = apps.filter((a, index) => !!appArray[index] && appArray[index].installs > a.installs);
 
             this.homey.app.log(`[Device] ${this.getName()} - [appDiff] - appDiff: `, appDiff);
             this.homey.app.log(`[Device] ${this.getName()} - [appDiffReverse] - appDiffReverse: `, appDiffReverse);
