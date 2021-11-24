@@ -150,7 +150,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
 
             if (this.onPollInterval) {
                 this.homey.app.log(`[Device] ${this.getName()} - [findapps] - error - clearInterval`);
-                this.homey.clearInterval(this.onPollInterval);
+                // this.homey.clearInterval(this.onPollInterval);
             }
         }
     }
