@@ -109,6 +109,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
 
             this.homey.app.log(`[Device] ${this.getName()} - [findapps] - appArray: `, appArray);
 
+            // const overrideAUTH = {"access_token":"eb45020d3c20f2b347aaf8f3cc5c7572368efd3f","refresh_token":"dcfac44081e7cf192ffb8c4d5c81223d0860bc48","expires_in":3660,"time":"2022-02-18T10:04:39.654Z"}
             let apps = await this._apiClient.getApps(settings.AUTH);
 
             if (!apps.data) {
@@ -146,12 +147,6 @@ module.exports = class DeveloperChecker extends Homey.Device {
 
         } catch (error) {
             this.homey.app.log(`[Device] ${this.getName()} - [findapps] - error: `, error);
-            this.setUnavailable(error);
-
-            if (this.onPollInterval) {
-                this.homey.app.log(`[Device] ${this.getName()} - [findapps] - error - clearInterval`);
-                // this.homey.clearInterval(this.onPollInterval);
-            }
         }
     }
 
@@ -169,6 +164,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
                     .trigger(this, { app: `${app.name}`, id: `${app.id}`, installs: parseInt(app.installs) })
                     .catch(this.error)
                     .then(this.homey.app.log(`[Device] ${this.getName()} - [appDiff] trigger_INSTALL_ADD - Triggered: "${app.name} | ${app.id} | ${app.installs}"`));
+                await sleep(20000);
             });
 
             appDiffReverse.forEach(async (app) => {
@@ -177,6 +173,7 @@ module.exports = class DeveloperChecker extends Homey.Device {
                     .trigger(this, { app: `${app.name}`, id: `${app.id}`, installs: parseInt(app.installs) })
                     .catch(this.error)
                     .then(this.homey.app.log(`[Device] ${this.getName()} - [appDiff] trigger_INSTALL_REMOVE - Triggered: "${app.name} | ${app.id} | ${app.installs}"`));
+                await sleep(20000);
             });
         } catch (error) {
             this.error(error);

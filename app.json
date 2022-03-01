@@ -277,7 +277,7 @@
       "units": {
         "en": "Installs"
       },
-      "insights": false,
+      "insights": true,
       "decimals": 0,
       "getable": true,
       "setable": false,
